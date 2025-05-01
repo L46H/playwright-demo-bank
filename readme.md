@@ -12,6 +12,8 @@ https://demo-bank.vercel.app/
 `npx playwright codegen https://demo-bank.vercel.app/`
 - run tests without browser GUI:  
 `npx playwright test`
+`npx playwright test --repeat-each=10`
+`npx playwright test --retries=3`
 - run test with browser GUI:  
 `npx playwright test --headed`
 - viewing report  
