@@ -18,7 +18,31 @@ https://demo-bank.vercel.app/
 `npx playwright test --headed`
 - viewing report  
 `npx playwright show-report`
+- run Trace Viewer on zip file
+`npx playwright show-trace trace.zip`
+
+#Updating Playwright
+- check if Playwright should be updated
+`npm outdated @playwright/test`
+-update Playwright
+`npm i @playwright/test`
+-update browsers
+`npx playwright install`
+-verify Playwright version
+`npx @playwright/test --version`
 
 
 ## Playwright Config modifications
 - config file `playwright.config.ts`
+- enable video on fail
+```javascript
+use: {
+    video: {'retain-on-failure'},
+},
+```
+- enable Trace Viewer on fail
+```javascript
+use: {
+    trace: {'retain-on-failure'},
+},
+```
