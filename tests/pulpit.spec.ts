@@ -2,20 +2,23 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Pulpit tests', () => {
   // test.describe.configure({ retries: 3 });
-  test('quick payment with correct data', async ({ page }) => {
+
+  test.beforeEach(async ({ page }) => {
     const url = 'https://demo-bank.vercel.app/';
     const login = 'testerQQ';
     const password = 'password';
-
-    const receiverId = '2';
-    const transferAmount = '100';
-    const transferTitle = 'taxi';
-    const expectedReceiverTransfer = 'Chuck Demobankowy';
-
+    
     await page.goto(url);
     await page.getByTestId('login-input').fill(login);
     await page.getByTestId('password-input').fill(password);
     await page.getByTestId('login-button').click();
+  });
+
+  test('quick payment with correct data', async ({ page }) => {
+    const receiverId = '2';
+    const transferAmount = '100';
+    const transferTitle = 'taxi';
+    const expectedReceiverTransfer = 'Chuck Demobankowy';
 
     await page.waitForLoadState('domcontentloaded');
 
@@ -40,10 +43,6 @@ test.describe('Pulpit tests', () => {
     const topUpAmount = '100';
     const expectedMessage = `Doładowanie wykonane! ${topUpAmount},00PLN na numer ${topUpReceiver}`;
 
-    await page.goto(url);
-    await page.getByTestId('login-input').fill(login);
-    await page.getByTestId('password-input').fill(password);
-    await page.getByTestId('login-button').click();
     await page.waitForLoadState('domcontentloaded');
 
     await page.locator('#widget_1_topup_receiver').selectOption(topUpReceiver);
