@@ -1,15 +1,16 @@
 import { test, expect } from '@playwright/test';
+import { loginData } from '../test-data/login.data';
 
 test.describe('Pulpit tests', () => {
   // test.describe.configure({ retries: 3 });
 
   test.beforeEach(async ({ page }) => {
-    const login = 'testerQQ';
-    const password = 'password';
+    const userId = loginData.userId;
+    const userPassword = loginData.password;
 
     await page.goto('/');
-    await page.getByTestId('login-input').fill(login);
-    await page.getByTestId('password-input').fill(password);
+    await page.getByTestId('login-input').fill(userId);
+    await page.getByTestId('password-input').fill(userPassword);
     await page.getByTestId('login-button').click();
   });
 
@@ -34,10 +35,6 @@ test.describe('Pulpit tests', () => {
   });
 
   test('successful mobile top-up', async ({ page }) => {
-    const url = 'https://demo-bank.vercel.app/';
-    const login = 'testerQQ';
-    const password = 'password';
-
     const topUpReceiver = '500 xxx xxx';
     const topUpAmount = '100';
     const expectedMessage = `Doładowanie wykonane! ${topUpAmount},00PLN na numer ${topUpReceiver}`;
@@ -54,7 +51,6 @@ test.describe('Pulpit tests', () => {
   });
 
   test('correct balance after successful mobile top-up', async ({ page }) => {
-    
     const topUpReceiver = '500 xxx xxx';
     const topUpAmount = '50';
     const initialBalance = await page.locator('#money_value').innerText();
