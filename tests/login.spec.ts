@@ -8,7 +8,7 @@ test.describe('User login to Demobank', () => {
 
   test('successful login with correct credentials', async ({ page }) => {
     const userId = loginData.userId;
-    const userPassword = loginData.password;
+    const userPassword = loginData.userPassword;
     const expectedUserName = 'Jan Demobankowy';
 
     await page.getByTestId('login-input').fill(userId);
@@ -19,10 +19,10 @@ test.describe('User login to Demobank', () => {
   });
 
   test('unsuccessful login with too short username', async ({ page }) => {
-    const userId = loginData.userId;
+    const incorrectUserId = 'tester';
     const expectedErrorMessage = 'identyfikator ma min. 8 znaków';
 
-    await page.getByTestId('login-input').fill(userId);
+    await page.getByTestId('login-input').fill(incorrectUserId);
     await page.getByTestId('password-input').click();
 
     await expect(page.getByTestId('error-login-id')).toHaveText(
