@@ -4,6 +4,7 @@ import { LoginPage } from '../pages/login.page';
 import { PulpitPage } from '../pages/pulpit.page';
 
 test.describe('Pulpit tests', () => {
+  let pulpitPage: PulpitPage;
   // test.describe.configure({ retries: 3 });
 
   test.beforeEach(async ({ page }) => {
@@ -12,9 +13,10 @@ test.describe('Pulpit tests', () => {
 
     await page.goto('/');
     const loginPage = new LoginPage(page);
-    await loginPage.loginInput.fill(userId);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
+
+    await loginPage.login(userId, userPassword);
+
+    pulpitPage = new PulpitPage(page);
   });
 
   test('quick payment with correct data', async ({ page }) => {
@@ -23,7 +25,6 @@ test.describe('Pulpit tests', () => {
     const transferTitle = 'taxi';
     const expectedReceiverTransfer = 'Chuck Demobankowy';
     const expectedMessage = `Przelew wykonany! ${expectedReceiverTransfer} - ${transferAmount},00PLN - ${transferTitle}`;
-    const pulpitPage = new PulpitPage(page);
 
     await page.waitForLoadState('domcontentloaded');
     await pulpitPage.transferReceiver.selectOption(receiverId);
@@ -43,7 +44,6 @@ test.describe('Pulpit tests', () => {
 
     await page.waitForLoadState('domcontentloaded');
 
-    const pulpitPage = new PulpitPage(page);
     await pulpitPage.topUpReceiver.selectOption(topUpReceiver);
     await pulpitPage.topUpAmount.fill(topUpAmount);
 
@@ -57,7 +57,6 @@ test.describe('Pulpit tests', () => {
   });
 
   test('correct balance after successful mobile top-up', async ({ page }) => {
-    const pulpitPage = new PulpitPage(page);
     const topUpReceiver = '500 xxx xxx';
     const topUpAmount = '50';
     const initialBalance = await pulpitPage.moneyValueText.innerText();
