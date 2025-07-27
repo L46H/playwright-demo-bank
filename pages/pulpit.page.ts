@@ -17,7 +17,7 @@ export class PulpitPage {
 
   moneyValueText: Locator;
   userNameText: Locator;
-  
+
   sideMenu: SideMenuComponent;
 
   constructor(private page: Page) {
@@ -34,11 +34,47 @@ export class PulpitPage {
 
     this.topUpReceiver = this.page.locator('#widget_1_topup_receiver');
     this.topUpAmount = this.page.locator('#widget_1_topup_amount');
-    this.topUpAgreementCheckbox = this.page.locator('#uniform-widget_1_topup_agreement span');
-    this.topUpExecuteButton = this.page.getByRole('button', { name: 'doładuj telefon' });
+    this.topUpAgreementCheckbox = this.page.locator(
+      '#uniform-widget_1_topup_agreement span'
+    );
+    this.topUpExecuteButton = this.page.getByRole('button', {
+      name: 'doładuj telefon'
+    });
 
     this.moneyValueText = this.page.locator('#money_value');
 
     this.userNameText = this.page.getByTestId('user-name');
+  }
+
+  async quickPayment(
+    receiverId: string,
+    transferAmount: string,
+    transferTitle: string
+  ): Promise<void> {
+    await this.transferReceiver.selectOption(receiverId);
+    await this.transferAmount.fill(transferAmount);
+    await this.transferTitle.fill(transferTitle);
+
+    await this.transferButton.click();
+    await this.actionCloseButton.click();
+  }
+
+  async topUp(topUpReceiver: string, topUpAmount: string): Promise<void> {
+    await this.topUpReceiver.selectOption(topUpReceiver);
+    await this.topUpAmount.fill(topUpAmount);
+
+    await this.topUpAmount.click();
+    await this.topUpAgreementCheckbox.click();
+    await this.topUpExecuteButton.click();
+
+    await this.actionCloseButton.click();
+  }
+
+  async correctBalanceAfterTopUp(topUpReceiver: string, topUpAmount: string): Promise<void> {
+    await this.topUpReceiver.selectOption(topUpReceiver);
+    await this.topUpAmount.fill(topUpAmount);
+    await this.page.locator('#uniform-widget_1_topup_agreement span').click();
+    await this.page.getByRole('button', { name: 'doładuj telefon' }).click();
+    await this.page.getByTestId('close-button').click();
   }
 }
