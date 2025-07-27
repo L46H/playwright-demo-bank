@@ -14,8 +14,23 @@ export class PaymentPage {
     this.transferAccount = this.page.getByTestId('form_account_to');
     this.transferAmount = this.page.getByTestId('form_amount');
 
-    this.transferButton = this.page.getByRole('button', { name: 'wykonaj przelew' });
+    this.transferButton = this.page.getByRole('button', {
+      name: 'wykonaj przelew'
+    });
     this.actionCloseButton = this.page.getByTestId('close-button');
     this.showMessages = this.page.locator('#show_messages');
+  }
+
+  async makeTransfer(
+    transferReceiver: string,
+    transferAccount: string,
+    transferAmount: string
+  ): Promise<void> {
+    await this.transferReceiver.fill(transferReceiver);
+    await this.transferAccount.fill(transferAccount);
+    await this.transferAmount.fill(transferAmount);
+
+    await this.transferButton.click();
+    await this.actionCloseButton.click();
   }
 }

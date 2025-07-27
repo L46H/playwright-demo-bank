@@ -7,7 +7,7 @@ import { PulpitPage } from '../pages/pulpit.page';
 test.describe('Payment tests', () => {
   let paymentPage: PaymentPage;
 
-  test.describe.configure({ retries: 3 });
+  // test.describe.configure({ retries: 3 });
 
   test.beforeEach(async ({ page }) => {
     const userId = loginData.userId;
@@ -29,11 +29,11 @@ test.describe('Payment tests', () => {
     const transferAmount = '9999';
     const expectedMessage = `Przelew wykonany! ${transferAmount},00PLN dla Jacek Nowakowski`;
 
-    await paymentPage.transferReceiver.fill(transferReceiver);
-    await paymentPage.transferAccount.fill(transferAccount);
-    await paymentPage.transferAmount.fill(transferAmount);
-    await paymentPage.transferButton.click();
-    await paymentPage.actionCloseButton.click();
+    await paymentPage.makeTransfer(
+      transferReceiver,
+      transferAccount,
+      transferAmount
+    );
 
     await expect(paymentPage.showMessages).toHaveText(expectedMessage);
   });
