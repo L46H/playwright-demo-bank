@@ -23,7 +23,7 @@ test.describe('Payment tests', () => {
     const pulpitPage = new PulpitPage(page);
     await pulpitPage.sideMenu.paymentButton.click();
   });
-  test('simple payment', async ({ page }) => {
+  test('simple payment', { tag: '@payment' }, async ({ page }) => {
     const transferReceiver = 'Jacek Nowakowski';
     const transferAccount = '22 2222 2222 2222 2222 2222 22222';
     const transferAmount = '9999';
