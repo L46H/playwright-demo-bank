@@ -21,7 +21,13 @@ test.describe('Pulpit tests', () => {
 
   test(
     'quick payment with correct data',
-    { tag: '@pulpit' },
+    {
+      tag: '@pulpit',
+      annotation: {
+        type: 'Happy path',
+        description: 'Verifies successful quick payment with correct data.'
+      }
+    },
     async ({ page }) => {
       const receiverId = '2';
       const transferAmount = '100';
@@ -35,21 +41,38 @@ test.describe('Pulpit tests', () => {
     }
   );
 
-  test('successful mobile top-up', { tag: '@pulpit' }, async ({ page }) => {
-    const topUpReceiver = '500 xxx xxx';
-    const topUpAmount = '100';
-    const expectedMessage = `Doładowanie wykonane! ${topUpAmount},00PLN na numer ${topUpReceiver}`;
+  test(
+    'successful mobile top-up',
+    {
+      tag: '@pulpit',
+      annotation: {
+        type: 'Happy path',
+        description: 'Checks if mobile top-up is successful.'
+      }
+    },
+    async ({ page }) => {
+      const topUpReceiver = '500 xxx xxx';
+      const topUpAmount = '100';
+      const expectedMessage = `Doładowanie wykonane! ${topUpAmount},00PLN na numer ${topUpReceiver}`;
 
-    await page.waitForLoadState('domcontentloaded');
+      await page.waitForLoadState('domcontentloaded');
 
-    await pulpitPage.topUp(topUpReceiver, topUpAmount);
+      await pulpitPage.topUp(topUpReceiver, topUpAmount);
 
-    await expect(pulpitPage.messageText).toHaveText(expectedMessage);
-  });
+      await expect(pulpitPage.messageText).toHaveText(expectedMessage);
+    }
+  );
 
   test(
     'correct balance after successful mobile top-up',
-    { tag: '@pulpit' },
+    {
+      tag: '@pulpit',
+      annotation: {
+        type: 'Happy path',
+        description:
+          'Verifies if the balance is correctly updated after a mobile top-up.'
+      }
+    },
     async ({ page }) => {
       const topUpReceiver = '500 xxx xxx';
       const topUpAmount = '50';

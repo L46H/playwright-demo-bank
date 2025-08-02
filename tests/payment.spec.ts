@@ -23,18 +23,28 @@ test.describe('Payment tests', () => {
     const pulpitPage = new PulpitPage(page);
     await pulpitPage.sideMenu.paymentButton.click();
   });
-  test('simple payment', { tag: '@payment' }, async ({ page }) => {
-    const transferReceiver = 'Jacek Nowakowski';
-    const transferAccount = '22 2222 2222 2222 2222 2222 22222';
-    const transferAmount = '9999';
-    const expectedMessage = `Przelew wykonany! ${transferAmount},00PLN dla Jacek Nowakowski`;
+  test(
+    'simple payment',
+    {
+      tag: '@payment',
+      annotation: {
+        type: 'Happy path',
+        description: 'Basic happy path test for payment'
+      }
+    },
+    async ({ page }) => {
+      const transferReceiver = 'Jacek Nowakowski';
+      const transferAccount = '22 2222 2222 2222 2222 2222 22222';
+      const transferAmount = '9999';
+      const expectedMessage = `Przelew wykonany! ${transferAmount},00PLN dla Jacek Nowakowski`;
 
-    await paymentPage.makeTransfer(
-      transferReceiver,
-      transferAccount,
-      transferAmount
-    );
+      await paymentPage.makeTransfer(
+        transferReceiver,
+        transferAccount,
+        transferAmount
+      );
 
-    await expect(paymentPage.showMessages).toHaveText(expectedMessage);
-  });
+      await expect(paymentPage.showMessages).toHaveText(expectedMessage);
+    }
+  );
 });

@@ -13,7 +13,13 @@ test.describe('User login to Demobank', () => {
 
   test(
     'successful login with correct credentials',
-    { tag: ['@login', '@smoke'] },
+    {
+      tag: ['@login', '@smoke'],
+      annotation: {
+        type: 'Happy path',
+        description: 'Basic happy path test for login'
+      }
+    },
     async ({ page }) => {
       const userId = loginData.userId;
       const userPassword = loginData.userPassword;
@@ -28,7 +34,13 @@ test.describe('User login to Demobank', () => {
 
   test(
     'unsuccessful login with too short username',
-    { tag: '@login' },
+    {
+      tag: '@login',
+      annotation: {
+        type: 'Negative path',
+        description: 'Verifies error message for a username that is too short.'
+      }
+    },
     async ({ page }) => {
       const incorrectUserId = 'tester';
       const expectedErrorMessage = 'identyfikator ma min. 8 znaków';
@@ -42,7 +54,13 @@ test.describe('User login to Demobank', () => {
 
   test(
     'unsuccessful login with too short password',
-    { tag: '@login' },
+    {
+      tag: '@login',
+      annotation: {
+        type: 'Negative path',
+        description: 'Verifies error message for a password that is too short.'
+      }
+    },
     async ({ page }) => {
       const userId = loginData.userId;
       const incorrectPassword = 'pass';
